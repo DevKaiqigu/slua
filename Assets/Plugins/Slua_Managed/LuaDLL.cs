@@ -1,4 +1,4 @@
-// The MIT License (MIT)
+ï»¿// The MIT License (MIT)
 
 // Copyright 2015 Siney/Pangweiwei siney@yeah.net
 // 
@@ -108,6 +108,11 @@ namespace SLua
 #else
         const string LUADLL = "slua";
 #endif
+
+        // cjson
+        [DllImport(LUADLL, CallingConvention = CallingConvention.Cdecl)]
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        public static extern int luaopen_cjson(IntPtr luaState);
 
         [DllImport(LUADLL, CallingConvention = CallingConvention.Cdecl)]
         public static extern void luaS_openextlibs(IntPtr L);
@@ -530,7 +535,7 @@ namespace SLua
         public static void lua_pushcfunction(IntPtr luaState, LuaCSFunction function)
         {
 #if SLUA_STANDALONE
-            // Add all LuaCSFunction£¬ or they will be GC collected!  (problem at windows, .net framework 4.5, `CallbackOnCollectedDelegated` exception)
+            // Add all LuaCSFunctionï¼Œ or they will be GC collected!  (problem at windows, .net framework 4.5, `CallbackOnCollectedDelegated` exception)
             GCHandle.Alloc(function);
 #endif
             IntPtr fn = Marshal.GetFunctionPointerForDelegate(function);
@@ -681,7 +686,7 @@ namespace SLua
         public static void lua_pushcclosure(IntPtr l, LuaCSFunction f, int nup)
         {
 #if SLUA_STANDALONE
-            // Add all LuaCSFunction£¬ or they will be GC collected!  (problem at windows, .net framework 4.5, `CallbackOnCollectedDelegated` exception)
+            // Add all LuaCSFunctionï¼Œ or they will be GC collected!  (problem at windows, .net framework 4.5, `CallbackOnCollectedDelegated` exception)
             GCHandle.Alloc(f);
 #endif
             IntPtr fn = Marshal.GetFunctionPointerForDelegate(f);

@@ -56,6 +56,8 @@ set ENV64="%VCVARS%amd64\vcvars64.bat"
 
 copy /Y slua.c "%USE_LUA_PATH%\src\"
 copy /Y luasocket-mini\*.* "%USE_LUA_PATH%\src\"
+copy /Y lua-cjson-2.1.0\*.h  "%USE_LUA_PATH%\src\"
+copy /Y lua-cjson-2.1.0\*.c  "%USE_LUA_PATH%\src\"
 
 call "%ENV64%"
 echo Swtich to x64 build env(%VS_TOOL_VER%)
