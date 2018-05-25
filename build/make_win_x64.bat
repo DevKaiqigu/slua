@@ -10,6 +10,12 @@ set USE_LUA_PATH=%LUAJIT_PATH%
 :: if "%USE_STANDARD_LUA%"=="YES" (set USE_LUA_PATH=%STANDARD_LUA_PATH%)
 
 :: get visual studio tools path
+:check2015-update2
+if exist "%VS140COMNTOOLS%" (
+    set VS_TOOL_VER=vs140
+    set VCVARS="%VS140COMNTOOLS%..\..\VC\bin\"
+    goto build
+)
 :check2015
 if exist "%VS130COMNTOOLS%" (
     set VS_TOOL_VER=vs130
