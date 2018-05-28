@@ -15,6 +15,26 @@
 
 #include "lj_arch.h"
 
+// #define ENABLE_LUA_SOCKET
+#define ENABLE_LUA_CMSGPACK
+#define ENABLE_LUA_CJSON
+
+#ifdef ENABLE_LUA_SOCKET
+#include "../../extensions/lua_socket/luasocket.h"
+#include "../../extensions/lua_socket/luasocket_scripts.h"
+#include "../../extensions/lua_socket/mime.h"
+#endif
+
+#ifdef ENABLE_LUA_CMSGPACK
+#include "../../extensions/lua_cmsgpack/lua_cmsgpack.h"
+#endif
+
+#ifdef ENABLE_LUA_CJSON
+#define LUA_CJSONNAME	"cjson"
+LUALIB_API int luaopen_cjson(lua_State *l);
+LUALIB_API int luaopen_cjson_safe(lua_State *l);
+#endif
+
 static const luaL_Reg lj_lib_load[] = {
   { "",			luaopen_base },
   { LUA_LOADLIBNAME,	luaopen_package },
@@ -27,7 +47,9 @@ static const luaL_Reg lj_lib_load[] = {
   { LUA_BITLIBNAME,	luaopen_bit },
   { LUA_JITLIBNAME,	luaopen_jit },
   /* third-party libraries */
+#ifdef ENABLE_LUA_CJSON
   { LUA_CJSONNAME,	luaopen_cjson },
+#endif
   { NULL,		NULL }
 };
 
@@ -53,5 +75,22 @@ LUALIB_API void luaL_openlibs(lua_State *L)
     lua_setfield(L, -2, lib->name);
   }
   lua_pop(L, 1);
+
+#ifdef ENABLE_LUA_SOCKET
+  // printf("Extension: lua_socket enabled\n");
+  luaopen_luasocket_scripts(L);
+#endif
+
+#ifdef ENABLE_LUA_CMSGPACK
+  printf("Extension: lua_cmsgpack enabled\n");
+  luaopen_cmsgpack(L);
+  luaopen_cmsgpack_safe(L);
+#endif
+
+#ifdef ENABLE_LUA_SOCKET
+  printf("Extension: lua_cjson enabled\n");
+#endif
+
+  lua_pop(L, -1);
 }
 

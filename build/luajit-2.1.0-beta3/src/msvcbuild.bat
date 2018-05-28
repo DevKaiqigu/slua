@@ -77,10 +77,10 @@ buildvm -m folddef -o lj_folddef.h lj_opt_fold.c
 :NODEBUG
 @if "%1"=="amalg" goto :AMALGDLL
 @if "%1"=="static" goto :STATIC
-%LJCOMPILE% /MT /DLUA_BUILD_AS_DLL lj_*.c lib_*.c
+%LJCOMPILE% /MT /DLUA_BUILD_AS_DLL /I"./" lj_*.c lib_*.c
 %LJCOMPILE% /MT /DLUA_BUILD_AS_DLL /DLUA_LIB slua.c tcp.c auxiliar.c options.c io.c timeout.c wsocket.c buffer.c inet.c luasocket.c except.c udp.c select.c strbuf.c lua_cjson.c fpconv.c
 @if errorlevel 1 goto :BAD
-%LJLINK% /DLL /out:%LJDLLNAME% lj_*.obj lib_*.obj slua.obj tcp.obj auxiliar.obj options.obj io.obj timeout.obj wsocket.obj buffer.obj inet.obj luasocket.obj except.obj udp.obj select.obj ws2_32.lib strbuf.obj lua_cjson.obj fpconv.obj
+%LJLINK% /DLL /out:%LJDLLNAME% lj_*.obj lib_*.obj slua.obj tcp.obj auxiliar.obj options.obj io.obj timeout.obj wsocket.obj buffer.obj inet.obj luasocket.obj except.obj udp.obj select.obj ws2_32.lib strbuf.obj lua_cjson.obj fpconv.obj "../../build/Debug/slua_3rd_libs.lib"
 @if errorlevel 1 goto :BAD
 @goto :MTDLL
 :STATIC
