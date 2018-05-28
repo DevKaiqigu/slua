@@ -87,7 +87,7 @@ LUALIB_API void luaL_openlibs(lua_State *L)
   luaopen_cmsgpack_safe(L);
 #endif
 
-#ifdef ENABLE_LUA_SOCKET
+#ifdef ENABLE_LUA_CJSON
   printf("Extension: lua_cjson enabled\n");
 #endif
 

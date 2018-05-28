@@ -70,6 +70,8 @@ copy /Y lua51.dll ..\..\..\jit\win\x64\lua51.dll
 copy /Y luajit.exe ..\..\..\jit\win\x64\luajit.exe
 cd ..\..
 
+pause
+
 call "%ENV64%"
 echo Swtich to x64 build env(%VS_TOOL_VER%)
 cd %USE_LUA_PATH%\src
@@ -85,3 +87,5 @@ goto :eof
 echo Can't find Visual Studio, compilation fails!
 
 goto :eof
+
+pause
